@@ -4,41 +4,45 @@ A curated collection of Claude Code skills for our engineering team. Covers auto
 
 ## Installation
 
-Clone this repo directly as your global Claude Code skills directory:
+Clone this repo and run the install script to copy skills into your global Claude Code skills directory:
 
 ```bash
-# Back up existing skills if needed
-mv ~/.claude/skills ~/.claude/skills.bak
-
-# Clone as your skills directory
-git clone git@<your-ghe-host>:<your-org>/claude-skills.git ~/.claude/skills
+git clone git@<your-ghe-host>:<your-org>/claude-skills.git
+cd claude-skills
+./install.sh
 ```
 
-All skills are immediately available in Claude Code. No restart required.
+This copies each skill into `~/.claude/skills/` without affecting skills from other sources. No restart required.
 
 **Updating:**
 ```bash
-cd ~/.claude/skills && git pull
+cd /path/to/claude-skills && git pull && ./install.sh
+```
+
+**Uninstalling:**
+```bash
+cd /path/to/claude-skills && ./install.sh --uninstall
 ```
 
 ## Skills
 
 | Skill | Description |
 |---|---|
+| [find-docs](./find-docs/) | Retrieves up-to-date technical documentation, API references, and code examples for any developer technology. |
 | [resolve-comments](./resolve-comments/) | Autonomously resolves open PR review comments — fetches, fixes, verifies, and commits. Supports TypeScript/NestJS, Python, and Java. |
 
-## Adding a Skill
+## Adding a Skill ** for Brian Only ;)
 
-1. Create a directory under `~/.claude/skills/<skill-name>/`
+1. Create a directory under `<your-clone>/my-skill/`
 2. Add a `SKILL.md` with YAML frontmatter (`name`, `description`) and instructions
 3. Optionally add supporting files under `references/` or `scripts/`
-4. Add a `README.md` to the skill directory
+4. Run `./install.sh` to copy it into `~/.claude/skills/`
 5. Commit and push
 
 ```bash
-mkdir -p ~/.claude/skills/my-skill
-# create SKILL.md and README.md
-cd ~/.claude/skills
+mkdir -p my-skill
+# create SKILL.md
+./install.sh
 git add my-skill/
 git commit -m "feat: add my-skill"
 git push
