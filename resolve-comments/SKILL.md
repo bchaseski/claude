@@ -220,9 +220,22 @@ git push origin HEAD
 
 ## Phase 6 — Wait & Re-check (Rounds 2 and 3)
 
+**This wait is mandatory.** You MUST execute the wait loop below and allow it
+to run to completion. Do not skip, shorten, or omit this wait. Reviewers need
+time to post new comments after seeing your push.
+
 ```bash
-echo "Round N complete. Waiting 5 minutes before checking for new comments..."
-sleep 300
+ROUND_END=$(date +%s)
+WAIT_UNTIL=$((ROUND_END + 300))
+echo "Round N complete at $(date). Waiting until $(date -r $WAIT_UNTIL) for new comments..."
+
+while [ $(date +%s) -lt $WAIT_UNTIL ]; do
+  REMAINING=$(( WAIT_UNTIL - $(date +%s) ))
+  echo "Waiting... ${REMAINING}s remaining"
+  sleep 60
+done
+
+echo "Wait complete. Checking for new comments..."
 ```
 
 Then repeat from **Phase 1**, but:
@@ -269,4 +282,5 @@ Remaining unresolved comments: N
 - **Never silently skip a comment** — always reply explaining the decision
 - **Never modify files outside the scope of the review comments** — no opportunistic refactors
 - **Never exceed 3 rounds** — stop and surface remaining items to the developer
+- **Never skip or shorten the 5-minute wait between rounds** — reviewers need time to post new comments after your push
 - Stack-specific hard rules are defined in each stack module — treat them as equal in weight to these
