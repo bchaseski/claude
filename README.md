@@ -9,7 +9,9 @@ Clone this repo and run the install script to copy skills into your global Claud
 ```bash
 git clone git@<your-ghe-host>:<your-org>/claude-skills.git
 cd claude-skills
-./install.sh
+./install.sh              # Install core skills
+./install.sh --git-help   # Install git workflow skills
+./install.sh --all        # Install everything
 ```
 
 This copies each skill into `~/.claude/skills/` without affecting skills from other sources. No restart required.
@@ -21,7 +23,8 @@ cd /path/to/claude-skills && git pull && ./install.sh
 
 **Uninstalling:**
 ```bash
-cd /path/to/claude-skills && ./install.sh --uninstall
+cd /path/to/claude-skills && ./install.sh --uninstall             # Remove all skills from this repo
+cd /path/to/claude-skills && ./install.sh --uninstall --git-help  # Remove only git workflow skills
 ```
 
 ## Skills
@@ -30,6 +33,17 @@ cd /path/to/claude-skills && ./install.sh --uninstall
 |---|---|
 | [find-docs](./find-docs/) | Retrieves up-to-date technical documentation, API references, and code examples for any developer technology. |
 | [resolve-comments](./resolve-comments/) | Autonomously resolves open PR review comments — fetches, fixes, verifies, and commits. Supports TypeScript/NestJS, Python, and Java. |
+
+### Git Workflow Skills
+
+Optional set of skills that guide common git operations. Install with `./install.sh --git-help`.
+
+| Skill | Description |
+|---|---|
+| [git-checkpoint](./git-checkpoint/) | Save/commit current work with a clear commit message. |
+| [git-feature-start](./git-feature-start/) | Start a new feature branch from an up-to-date base. |
+| [git-submit-pr](./git-submit-pr/) | Push the current branch and open a pull request via GitHub CLI. |
+| [git-sync-main](./git-sync-main/) | Sync the current branch with the latest changes from its base branch. |
 
 ## Adding a Skill ** for Brian Only ;)
 
