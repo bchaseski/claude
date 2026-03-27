@@ -16,6 +16,8 @@ cd claude-skills
 
 This copies each skill into `~/.claude/skills/` without affecting skills from other sources. No restart required.
 
+The install script also merges permissions from `claude/settings.json` into `~/.claude/settings.json`, auto-allowing common safe commands (git, npm, docker, etc.). Existing permissions are preserved. Requires `jq` (`brew install jq` / `apt install jq`) -- if missing, a warning is printed and skills are still installed.
+
 **Updating:**
 ```bash
 cd /path/to/claude-skills && git pull && ./install.sh

@@ -3,6 +3,8 @@ set -euo pipefail
 
 SKILLS_DIR="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SETTINGS_SOURCE="$SCRIPT_DIR/claude/settings.json"
+SETTINGS_TARGET="${CLAUDE_SETTINGS_FILE:-$HOME/.claude/settings.json}"
 
 # Auto-detect skill directories (any directory containing a SKILL.md)
 ALL_SKILL_DIRS=()
@@ -24,6 +26,104 @@ if [ ${#ALL_SKILL_DIRS[@]} -eq 0 ]; then
     echo "Error: No skills found in $SCRIPT_DIR" >&2
     exit 1
 fi
+
+# Merge repo permissions into user's settings (additive, order-preserving)
+merge_permissions() {
+    local source="$1"
+    local target="$2"
+
+    if ! command -v jq &>/dev/null; then
+        echo ""
+        echo "Warning: 'jq' not installed -- skipping permissions merge." >&2
+        echo "  Install with: brew install jq  (or)  apt install jq" >&2
+        echo "  Then re-run ./install.sh to merge permissions." >&2
+        return 0
+    fi
+
+    local repo_perms
+    repo_perms="$(jq -c '.permissions.allow // []' "$source")"
+    if [ "$repo_perms" = "[]" ]; then
+        return 0
+    fi
+
+    mkdir -p "$(dirname "$target")"
+
+    local existing_json
+    if [ -f "$target" ]; then
+        existing_json="$(cat "$target")"
+    else
+        existing_json="{}"
+    fi
+
+    local count_before
+    count_before="$(echo "$existing_json" | jq '.permissions.allow // [] | length')"
+
+    local merged
+    merged="$(echo "$existing_json" | jq --argjson repo_perms "$repo_perms" '
+        (.permissions.allow // []) as $existing |
+        .permissions.allow = (
+            $existing +
+            [$repo_perms[] | select(. as $r | $existing | index($r) | not)]
+        )
+    ')"
+
+    local count_after
+    count_after="$(echo "$merged" | jq '.permissions.allow | length')"
+
+    echo "$merged" > "$target"
+
+    local added=$((count_after - count_before))
+    if [ "$added" -gt 0 ]; then
+        echo "Added $added permission(s) to $target"
+    else
+        echo "Permissions already up to date in $target"
+    fi
+}
+
+# Remove repo permissions from user's settings
+remove_permissions() {
+    local source="$1"
+    local target="$2"
+
+    if ! command -v jq &>/dev/null; then
+        echo ""
+        echo "Warning: 'jq' not installed -- skipping permissions removal." >&2
+        return 0
+    fi
+
+    if [ ! -f "$target" ]; then
+        return 0
+    fi
+
+    local repo_perms
+    repo_perms="$(jq -c '.permissions.allow // []' "$source")"
+    if [ "$repo_perms" = "[]" ]; then
+        return 0
+    fi
+
+    local count_before
+    count_before="$(jq '.permissions.allow // [] | length' "$target")"
+
+    local merged
+    merged="$(jq --argjson repo_perms "$repo_perms" '
+        .permissions.allow = [
+            (.permissions.allow // [])[] |
+            select(. as $r | $repo_perms | index($r) | not)
+        ]
+    ' "$target")"
+
+    local count_after
+    count_after="$(echo "$merged" | jq '.permissions.allow | length')"
+
+    echo "$merged" > "$target"
+
+    local removed=$((count_before - count_after))
+    if [ "$removed" -gt 0 ]; then
+        echo "Removed $removed permission(s) from $target"
+    else
+        echo "No matching permissions to remove from $target"
+    fi
+}
 
 # Parse arguments
 ACTION=""
@@ -81,6 +181,9 @@ if [[ "$ACTION" == "help" ]]; then
     echo "Copies skills from this repo into $SKILLS_DIR"
     echo "without affecting skills from other sources."
     echo ""
+    echo "Also merges permissions from claude/settings.json into"
+    echo "~/.claude/settings.json (requires jq). Uninstall reverses this."
+    echo ""
     echo "By default, installs core skills only."
     echo ""
     echo "Options:"
@@ -136,6 +239,10 @@ if [[ "$ACTION" == "uninstall" ]]; then
             echo "Not found (skipping): $skill"
         fi
     done
+    # Remove repo permissions from user settings
+    if [ -f "$SETTINGS_SOURCE" ]; then
+        remove_permissions "$SETTINGS_SOURCE" "$SETTINGS_TARGET"
+    fi
     exit 0
 fi
 
@@ -156,6 +263,11 @@ for skill in "${TARGET_SKILLS[@]}"; do
     rm -rf "$SKILLS_DIR/$skill"
     cp -a "$SCRIPT_DIR/$skill" "$SKILLS_DIR/$skill"
 done
+
+# Merge permissions from repo settings into user settings
+if [ -f "$SETTINGS_SOURCE" ]; then
+    merge_permissions "$SETTINGS_SOURCE" "$SETTINGS_TARGET"
+fi
 
 echo ""
 echo "Installed ${#TARGET_SKILLS[@]} skill(s) to $SKILLS_DIR"
