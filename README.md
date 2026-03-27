@@ -7,8 +7,8 @@ A curated collection of Claude Code skills for our engineering team. Covers auto
 Clone this repo and run the install script to copy skills into your global Claude Code skills directory:
 
 ```bash
-git clone git@<your-ghe-host>:<your-org>/claude-skills.git
-cd claude-skills
+git clone https://git.zoominfo.com/brian-chase/claude.git
+cd claude
 ./install.sh              # Install core skills
 ./install.sh --git-help   # Install git workflow skills
 ./install.sh --all        # Install everything
