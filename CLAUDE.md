@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A curated collection of Claude Code skills for ZoomInfo engineering teams. Skills are Markdown-based instruction bundles (not application code) that teach Claude Code how to accomplish specific tasks autonomously.
+A curated collection of Claude Code skills for Brian Chase teams. Skills are Markdown-based instruction bundles (not application code) that teach Claude Code how to accomplish specific tasks autonomously.
 
 ## Install & Update
 

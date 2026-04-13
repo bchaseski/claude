@@ -2,6 +2,6 @@
   "name": "core-tools",
   "description": "Essential productivity skills: documentation lookup via Context7 and autonomous PR comment resolution with stack-aware verification.",
   "author": {
-    "name": "ZoomInfo Engineering"
+    "name": "Brian Chase"
   }
 }

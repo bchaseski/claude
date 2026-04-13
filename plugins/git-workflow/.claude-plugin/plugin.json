@@ -2,6 +2,6 @@
   "name": "git-workflow",
   "description": "Git workflow skills: commit checkpoints, feature branch creation, PR submission via GitHub CLI, and main branch syncing.",
   "author": {
-    "name": "ZoomInfo Engineering"
+    "name": "Brian Chase"
   }
 }

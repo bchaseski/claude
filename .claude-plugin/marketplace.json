@@ -1,9 +1,9 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "zoominfo-claude-skills",
-  "description": "Curated Claude Code skills for ZoomInfo engineering teams",
+  "name": "practical-claude-skills",
+  "description": "Curated Claude Code skills for Product/Engineering teams",
   "owner": {
-    "name": "ZoomInfo Engineering"
+    "name": "Brian Chase"
   },
   "plugins": [
     {
