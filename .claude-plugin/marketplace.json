@@ -1,23 +1,22 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "zoominfo-claude-skills",
+  "description": "Curated Claude Code skills for ZoomInfo engineering teams",
   "owner": {
     "name": "ZoomInfo Engineering"
-  },
-  "metadata": {
-    "description": "Curated Claude Code skills for ZoomInfo engineering teams",
-    "version": "1.0.0",
-    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "core-tools",
+      "description": "Essential productivity skills: documentation lookup and PR comment resolution",
       "source": "./plugins/core-tools",
-      "description": "Essential productivity skills: documentation lookup and PR comment resolution"
+      "category": "development"
     },
     {
       "name": "git-workflow",
+      "description": "Git workflow helpers: checkpoint, feature branching, PR submission, and main sync",
       "source": "./plugins/git-workflow",
-      "description": "Git workflow helpers: checkpoint, feature branching, PR submission, and main sync"
+      "category": "development"
     }
   ]
 }
