@@ -1,0 +1,10 @@
+{
+  "name": "core-tools",
+  "description": "Essential productivity skills for ZoomInfo engineers: documentation lookup via Context7 and autonomous PR comment resolution with stack-aware verification.",
+  "version": "1.0.0",
+  "author": {
+    "name": "ZoomInfo Engineering"
+  },
+  "keywords": ["documentation", "pr-review", "code-review", "productivity"],
+  "category": "development"
+}

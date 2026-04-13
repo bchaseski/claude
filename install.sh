@@ -6,24 +6,37 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SETTINGS_SOURCE="$SCRIPT_DIR/claude/settings.json"
 SETTINGS_TARGET="${CLAUDE_SETTINGS_FILE:-$HOME/.claude/settings.json}"
 
-# Auto-detect skill directories (any directory containing a SKILL.md)
+PLUGINS_DIR="$SCRIPT_DIR/plugins"
+
+# Auto-detect skill directories under plugins/*/skills/
 ALL_SKILL_DIRS=()
 CORE_SKILL_DIRS=()
 GIT_SKILL_DIRS=()
-for dir in "$SCRIPT_DIR"/*/; do
-    if [ -f "${dir}SKILL.md" ]; then
-        name="$(basename "$dir")"
-        ALL_SKILL_DIRS+=("$name")
-        if [[ "$name" == git-* ]]; then
-            GIT_SKILL_DIRS+=("$name")
-        else
-            CORE_SKILL_DIRS+=("$name")
+# Map skill name -> source path for copying
+declare -A SKILL_SOURCE_MAP
+
+for plugin_dir in "$PLUGINS_DIR"/*/; do
+    [ -d "$plugin_dir" ] || continue
+    local_skills_dir="${plugin_dir}skills"
+    [ -d "$local_skills_dir" ] || continue
+    plugin_name="$(basename "$plugin_dir")"
+    for skill_dir in "$local_skills_dir"/*/; do
+        [ -d "$skill_dir" ] || continue
+        if [ -f "${skill_dir}SKILL.md" ]; then
+            name="$(basename "$skill_dir")"
+            ALL_SKILL_DIRS+=("$name")
+            SKILL_SOURCE_MAP["$name"]="$skill_dir"
+            if [[ "$plugin_name" == "git-workflow" ]]; then
+                GIT_SKILL_DIRS+=("$name")
+            else
+                CORE_SKILL_DIRS+=("$name")
+            fi
         fi
-    fi
+    done
 done
 
 if [ ${#ALL_SKILL_DIRS[@]} -eq 0 ]; then
-    echo "Error: No skills found in $SCRIPT_DIR" >&2
+    echo "Error: No skills found in $PLUGINS_DIR" >&2
     exit 1
 fi
 
@@ -261,7 +274,7 @@ for skill in "${TARGET_SKILLS[@]}"; do
         echo "Installing: $skill"
     fi
     rm -rf "$SKILLS_DIR/$skill"
-    cp -a "$SCRIPT_DIR/$skill" "$SKILLS_DIR/$skill"
+    cp -a "${SKILL_SOURCE_MAP[$skill]}" "$SKILLS_DIR/$skill"
 done
 
 # Merge permissions from repo settings into user settings

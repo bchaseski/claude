@@ -1,0 +1,10 @@
+{
+  "name": "git-workflow",
+  "description": "Git workflow skills for ZoomInfo engineers: commit checkpoints, feature branch creation, PR submission via GitHub CLI, and main branch syncing.",
+  "version": "1.0.0",
+  "author": {
+    "name": "ZoomInfo Engineering"
+  },
+  "keywords": ["git", "github", "pr", "branching", "workflow"],
+  "category": "development"
+}

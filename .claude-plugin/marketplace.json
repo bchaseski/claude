@@ -1,0 +1,23 @@
+{
+  "name": "zoominfo-claude-skills",
+  "owner": {
+    "name": "ZoomInfo Engineering"
+  },
+  "metadata": {
+    "description": "Curated Claude Code skills for ZoomInfo engineering teams",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "core-tools",
+      "source": "./plugins/core-tools",
+      "description": "Essential productivity skills: documentation lookup and PR comment resolution"
+    },
+    {
+      "name": "git-workflow",
+      "source": "./plugins/git-workflow",
+      "description": "Git workflow helpers: checkpoint, feature branching, PR submission, and main sync"
+    }
+  ]
+}

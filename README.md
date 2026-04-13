@@ -4,6 +4,20 @@ A curated collection of Claude Code skills for our engineering team. Covers auto
 
 ## Installation
 
+### Via Plugin Marketplace (recommended)
+
+Register this repo as a marketplace in Claude Code, then install plugins directly:
+
+```
+/plugin marketplace add https://git.zoominfo.com/brian-chase/claude
+/plugin install core-tools@zoominfo-claude-skills
+/plugin install git-workflow@zoominfo-claude-skills
+```
+
+Updates happen automatically when changes are pushed to this repo.
+
+### Via Install Script
+
 Clone this repo and run the install script to copy skills into your global Claude Code skills directory:
 
 ```bash
@@ -33,8 +47,8 @@ cd /path/to/claude-skills && ./install.sh --uninstall --git-help  # Remove only 
 
 | Skill | Description |
 |---|---|
-| [find-docs](./find-docs/) | Retrieves up-to-date technical documentation, API references, and code examples for any developer technology. |
-| [resolve-comments](./resolve-comments/) | Autonomously resolves open PR review comments — fetches, fixes, verifies, and commits. Supports TypeScript/NestJS, Python, and Java. |
+| [find-docs](./plugins/core-tools/skills/find-docs/) | Retrieves up-to-date technical documentation, API references, and code examples for any developer technology. |
+| [resolve-comments](./plugins/core-tools/skills/resolve-comments/) | Autonomously resolves open PR review comments — fetches, fixes, verifies, and commits. Supports TypeScript/NestJS, Python, and Java. |
 
 ### Git Workflow Skills
 
@@ -42,24 +56,24 @@ Optional set of skills that guide common git operations. Install with `./install
 
 | Skill | Description |
 |---|---|
-| [git-checkpoint](./git-checkpoint/) | Save/commit current work with a clear commit message. |
-| [git-feature-start](./git-feature-start/) | Start a new feature branch from an up-to-date base. |
-| [git-submit-pr](./git-submit-pr/) | Push the current branch and open a pull request via GitHub CLI. |
-| [git-sync-main](./git-sync-main/) | Sync the current branch with the latest changes from its base branch. |
+| [git-checkpoint](./plugins/git-workflow/skills/git-checkpoint/) | Save/commit current work with a clear commit message. |
+| [git-feature-start](./plugins/git-workflow/skills/git-feature-start/) | Start a new feature branch from an up-to-date base. |
+| [git-submit-pr](./plugins/git-workflow/skills/git-submit-pr/) | Push the current branch and open a pull request via GitHub CLI. |
+| [git-sync-main](./plugins/git-workflow/skills/git-sync-main/) | Sync the current branch with the latest changes from its base branch. |
 
 ## Adding a Skill ** for Brian Only ;)
 
-1. Create a directory under `<your-clone>/my-skill/`
+1. Add a skill directory under the appropriate plugin: `plugins/<plugin>/skills/my-skill/`
 2. Add a `SKILL.md` with YAML frontmatter (`name`, `description`) and instructions
 3. Optionally add supporting files under `references/` or `scripts/`
 4. Run `./install.sh` to copy it into `~/.claude/skills/`
 5. Commit and push
 
 ```bash
-mkdir -p my-skill
+mkdir -p plugins/core-tools/skills/my-skill
 # create SKILL.md
 ./install.sh
-git add my-skill/
+git add plugins/core-tools/skills/my-skill/
 git commit -m "feat: add my-skill"
 git push
 ```
