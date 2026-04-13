@@ -14,7 +14,7 @@
     },
     {
       "name": "git-workflow",
-      "description": "Git workflow helpers: checkpoint, feature branching, PR submission, and main sync",
+      "description": "Git workflow helpers: checkpoint, feature branching, PR submission, main sync, and conflict resolution",
       "source": "./plugins/git-workflow",
       "category": "development"
     }
