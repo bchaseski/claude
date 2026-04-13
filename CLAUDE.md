@@ -11,7 +11,7 @@ A curated collection of Claude Code skills for ZoomInfo engineering teams. Skill
 ### Via Marketplace (recommended)
 
 ```
-/plugin marketplace add https://git.zoominfo.com/brian-chase/claude
+/plugin marketplace add https://github.com/bchaseski/claude
 /plugin install core-tools@zoominfo-claude-skills
 /plugin install git-workflow@zoominfo-claude-skills
 ```

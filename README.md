@@ -9,7 +9,7 @@ A curated collection of Claude Code skills for our engineering team. Covers auto
 Register this repo as a marketplace in Claude Code, then install plugins directly:
 
 ```
-/plugin marketplace add https://git.zoominfo.com/brian-chase/claude
+/plugin marketplace add https://github.com/bchaseski/claude
 /plugin install core-tools@zoominfo-claude-skills
 /plugin install git-workflow@zoominfo-claude-skills
 ```
@@ -21,7 +21,7 @@ Updates happen automatically when changes are pushed to this repo.
 Clone this repo and run the install script to copy skills into your global Claude Code skills directory:
 
 ```bash
-git clone https://git.zoominfo.com/brian-chase/claude.git
+git clone https://github.com/bchaseski/claude.git
 cd claude
 ./install.sh              # Install core skills
 ./install.sh --git-help   # Install git workflow skills
