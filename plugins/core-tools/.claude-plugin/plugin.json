@@ -1,6 +1,6 @@
 {
   "name": "core-tools",
-  "description": "Essential productivity skills: documentation lookup via Context7 and autonomous PR comment resolution with stack-aware verification.",
+  "description": "Essential productivity skills: documentation lookup via Context7, autonomous PR comment resolution with stack-aware verification, and project documentation bootstrapping for Claude Code.",
   "author": {
     "name": "Brian Chase"
   }

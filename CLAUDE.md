@@ -42,6 +42,7 @@ plugins/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
 │   └── skills/
+│       ├── bootstrap-docs/
 │       ├── find-docs/
 │       └── resolve-comments/
 └── git-workflow/           # Plugin: git workflow helpers
@@ -60,7 +61,7 @@ The marketplace manifest at `.claude-plugin/marketplace.json` catalogs both plug
 
 ### Two Plugins
 
-- **core-tools** (default install): `find-docs`, `resolve-comments`
+- **core-tools** (default install): `bootstrap-docs`, `find-docs`, `resolve-comments`
 - **git-workflow** (install with `--git-help`): `git-checkpoint`, `git-feature-start`, `git-submit-pr`, `git-sync-main`
 
 ### resolve-comments Stack Modules
@@ -73,6 +74,19 @@ The `resolve-comments` skill auto-detects the project stack via `references/dete
 | Node (non-NestJS) | `references/nestjs.md` | `package.json` without NestJS |
 | Java | `references/java.md` | `pom.xml` or `build.gradle` |
 | Python | `references/python.md` | `pyproject.toml`, `setup.py`, or `requirements.txt` |
+
+### bootstrap-docs Skill
+
+The `bootstrap-docs` skill generates project documentation to improve Claude Code's effectiveness. It runs `/init` if no `CLAUDE.md` exists, then generates four supplemental docs:
+
+| Doc | Purpose |
+|-----|---------|
+| `ARCHITECTURE.md` | Component map, data flows, service boundaries |
+| `CONVENTIONS.md` | Naming, error handling, import patterns |
+| `DEPENDENCIES.md` | Key libraries and why they were chosen |
+| `TESTING.md` | Test frameworks, commands, fixture patterns |
+
+It uses `references/detect-project.md` for extended stack/framework/feature detection (Node, Python, Java, Go, Rust, Ruby) and template rubrics under `references/templates/` to guide document generation. After generating docs, it updates `CLAUDE.md` with a documentation index section.
 
 ### Permissions
 
