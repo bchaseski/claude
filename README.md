@@ -10,8 +10,8 @@ Register this repo as a marketplace in Claude Code, then install plugins directl
 
 ```
 /plugin marketplace add https://github.com/bchaseski/claude
-/plugin install core-tools@zoominfo-claude-skills
-/plugin install git-workflow@zoominfo-claude-skills
+/plugin install core-tools@practical-claude-skills
+/plugin install git-workflow@practical-claude-skills
 ```
 
 Updates happen automatically when changes are pushed to this repo.
@@ -47,6 +47,7 @@ cd /path/to/claude-skills && ./install.sh --uninstall --git-help  # Remove only 
 
 | Skill | Description |
 |---|---|
+| [bootstrap-docs](./plugins/core-tools/skills/bootstrap-docs/) | Analyzes a codebase and generates documentation files (ARCHITECTURE.md, CONVENTIONS.md, DEPENDENCIES.md, TESTING.md) that help Claude Code work more effectively. |
 | [find-docs](./plugins/core-tools/skills/find-docs/) | Retrieves up-to-date technical documentation, API references, and code examples for any developer technology. |
 | [resolve-comments](./plugins/core-tools/skills/resolve-comments/) | Autonomously resolves open PR review comments — fetches, fixes, verifies, and commits. Supports TypeScript/NestJS, Python, and Java. |
 
@@ -58,6 +59,7 @@ Optional set of skills that guide common git operations. Install with `./install
 |---|---|
 | [git-checkpoint](./plugins/git-workflow/skills/git-checkpoint/) | Save/commit current work with a clear commit message. |
 | [git-feature-start](./plugins/git-workflow/skills/git-feature-start/) | Start a new feature branch from an up-to-date base. |
+| [git-resolve-conflicts](./plugins/git-workflow/skills/git-resolve-conflicts/) | Resolve Git merge conflicts interactively. |
 | [git-submit-pr](./plugins/git-workflow/skills/git-submit-pr/) | Push the current branch and open a pull request via GitHub CLI. |
 | [git-sync-main](./plugins/git-workflow/skills/git-sync-main/) | Sync the current branch with the latest changes from its base branch. |
 
