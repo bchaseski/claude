@@ -1,0 +1,113 @@
+# CLAUDE.md Template
+# ==================
+# Instructions: Replace all <PLACEHOLDER> values. Delete comment lines before committing.
+# Target length: 80–150 lines. If you're going longer, move content to ARCHITECTURE.md
+# or CODING_STANDARDS.md and link to them instead.
+
+# <PROJECT_NAME>
+
+## Project Overview
+<One to three sentences: what this system does, who uses it, and what problem it solves.>
+
+**Tech Stack:** <Language + version> | <Framework + version> | <Key libraries>
+**Repo type:** <monorepo / single service / library / CLI / etc.>
+
+---
+
+## Essential Commands
+
+```bash
+# Setup
+<install command>        # e.g., npm install / pip install -e ".[dev]" / go mod download
+
+# Development
+<dev server command>     # e.g., npm run dev / uvicorn main:app --reload
+
+# Testing
+<test command>           # e.g., npm test / pytest / go test ./...
+<test single file>       # e.g., npm test -- path/to/file / pytest path/to/test.py
+
+# Linting & formatting
+<lint command>           # e.g., npm run lint / ruff check . / golangci-lint run
+<format command>         # e.g., npm run format / ruff format . / gofmt -w .
+
+# Build
+<build command>          # e.g., npm run build / docker build -t app .
+```
+
+---
+
+## Project Structure
+
+```
+<project-root>/
+├── <dir1>/         # <what lives here>
+├── <dir2>/         # <what lives here>
+├── <dir3>/         # <what lives here>
+└── <config files>  # <brief note>
+```
+
+---
+
+## Key Conventions
+
+### Must Follow
+- <Convention 1 — be specific, not generic>
+- <Convention 2>
+- <Convention 3>
+
+### Never Do This
+- **Never** <anti-pattern 1> — <brief reason>
+- **Never** <anti-pattern 2> — <brief reason>
+- **Do not** add <library/pattern> — we use <alternative> instead
+
+---
+
+## Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full system design.
+
+**Key point for agents:** <One sentence that, if an agent forgot everything else about
+the architecture, would prevent the most common mistake.>
+
+---
+
+## Coding Standards
+
+See [CODING_STANDARDS.md](./CODING_STANDARDS.md) for the full style guide.
+
+**Quick reference:**
+- Naming: <e.g., camelCase functions, PascalCase classes, SCREAMING_SNAKE constants>
+- File naming: <e.g., kebab-case for components, snake_case for modules>
+- Imports: <e.g., absolute imports only, group: stdlib / external / internal>
+- Error handling: <e.g., always use Result type / never swallow errors silently>
+
+---
+
+## Testing
+
+- **Required coverage:** <e.g., unit tests for all business logic, integration tests for API endpoints>
+- **Test file location:** <e.g., co-located `*.test.ts` / centralized `tests/` directory>
+- **Mocking:** <e.g., use Jest mocks / use pytest fixtures / no mocks in integration tests>
+- **Before committing:** always run `<lint command>` and `<test command>`
+
+---
+
+## Environment
+
+```bash
+# Required environment variables
+<VAR_NAME>=<description or example value>
+<VAR_NAME>=<description or example value>
+
+# Copy from:
+cp .env.example .env
+```
+
+---
+
+## Notes for AI Agents
+
+- <Anything that tends to go wrong when an agent works in this repo>
+- <Gotchas specific to this codebase>
+- <Where to look when confused about a pattern>

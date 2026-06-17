@@ -42,8 +42,8 @@ plugins/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
 │   └── skills/
-│       ├── bootstrap-docs/
 │       ├── find-docs/
+│       ├── repo-context-files/
 │       └── resolve-comments/
 └── git-workflow/           # Plugin: git workflow helpers
     ├── .claude-plugin/
@@ -51,6 +51,7 @@ plugins/
     └── skills/
         ├── git-checkpoint/
         ├── git-feature-start/
+        ├── git-resolve-conflicts/
         ├── git-submit-pr/
         └── git-sync-main/
 ```
@@ -61,8 +62,8 @@ The marketplace manifest at `.claude-plugin/marketplace.json` catalogs both plug
 
 ### Two Plugins
 
-- **core-tools** (default install): `bootstrap-docs`, `find-docs`, `resolve-comments`
-- **git-workflow** (install with `--git-help`): `git-checkpoint`, `git-feature-start`, `git-submit-pr`, `git-sync-main`
+- **core-tools** (default install): `find-docs`, `repo-context-files`, `resolve-comments`
+- **git-workflow** (install with `--git-help`): `git-checkpoint`, `git-feature-start`, `git-resolve-conflicts`, `git-submit-pr`, `git-sync-main`
 
 ### resolve-comments Stack Modules
 
@@ -75,18 +76,20 @@ The `resolve-comments` skill auto-detects the project stack via `references/dete
 | Java | `references/java.md` | `pom.xml` or `build.gradle` |
 | Python | `references/python.md` | `pyproject.toml`, `setup.py`, or `requirements.txt` |
 
-### bootstrap-docs Skill
+### repo-context-files Skill
 
-The `bootstrap-docs` skill generates project documentation to improve Claude Code's effectiveness. It runs `/init` if no `CLAUDE.md` exists, then generates four supplemental docs:
+The `repo-context-files` skill analyzes a codebase and generates the full set of LLM-context documentation files so AI agents (Claude, Cursor, Copilot) write correct, idiomatic code. It runs `/init` if no `CLAUDE.md` exists, then generates and cross-links:
 
 | Doc | Purpose |
 |-----|---------|
-| `ARCHITECTURE.md` | Component map, data flows, service boundaries |
-| `CONVENTIONS.md` | Naming, error handling, import patterns |
+| `CLAUDE.md` | The anchor — project purpose, commands, structure, key rules |
+| `ARCHITECTURE.md` | Component map, data flows, technology decisions and *why*, intentional boundaries |
+| `CODING_STANDARDS.md` | Prescriptive style contract — rules to follow going forward |
+| `CONVENTIONS.md` | Descriptive — patterns observed in the existing code |
 | `DEPENDENCIES.md` | Key libraries and why they were chosen |
 | `TESTING.md` | Test frameworks, commands, fixture patterns |
 
-It uses `references/detect-project.md` for extended stack/framework/feature detection (Node, Python, Java, Go, Rust, Ruby) and template rubrics under `references/templates/` to guide document generation. After generating docs, it updates `CLAUDE.md` with a documentation index section.
+It uses `references/detect-project.md` for stack/framework/feature detection (Node, Python, Java, Go, Rust, Ruby), template rubrics under `references/templates/`, and `references/agents_md_pattern.md` for the `AGENTS.md`/ADR patterns. The workflow has two checkpoints (CLAUDE.md and ARCHITECTURE.md) where it waits for user confirmation before building dependent docs. (This skill supersedes the former `bootstrap-docs` skill, folding in its detection and codebase-survey workflow.)
 
 ### Permissions
 

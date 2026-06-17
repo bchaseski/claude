@@ -47,8 +47,8 @@ cd /path/to/claude-skills && ./install.sh --uninstall --git-help  # Remove only 
 
 | Skill | Description |
 |---|---|
-| [bootstrap-docs](./plugins/core-tools/skills/bootstrap-docs/) | Analyzes a codebase and generates documentation files (ARCHITECTURE.md, CONVENTIONS.md, DEPENDENCIES.md, TESTING.md) that help Claude Code work more effectively. |
 | [find-docs](./plugins/core-tools/skills/find-docs/) | Retrieves up-to-date technical documentation, API references, and code examples for any developer technology. |
+| [repo-context-files](./plugins/core-tools/skills/repo-context-files/) | Analyzes a codebase and generates the full set of LLM-context docs (CLAUDE.md, ARCHITECTURE.md, CODING_STANDARDS.md, CONVENTIONS.md, DEPENDENCIES.md, TESTING.md) so AI agents write correct, idiomatic code. Runs `/init` first if no CLAUDE.md exists. |
 | [resolve-comments](./plugins/core-tools/skills/resolve-comments/) | Autonomously resolves open PR review comments — fetches, fixes, verifies, and commits. Supports TypeScript/NestJS, Python, and Java. |
 
 ### Git Workflow Skills

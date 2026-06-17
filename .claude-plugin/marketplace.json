@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "core-tools",
-      "description": "Essential productivity skills: documentation lookup and PR comment resolution",
+      "description": "Essential productivity skills: documentation lookup, PR comment resolution, and LLM-context/repo documentation generation",
       "source": "./plugins/core-tools",
       "category": "development"
     },

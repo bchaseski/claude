@@ -1,0 +1,115 @@
+# ARCHITECTURE.md Template
+# =========================
+# Audience: Engineers new to the project AND AI coding agents.
+# Goal: Explain what the system IS and why it's built this way — not just what the code does.
+
+# <PROJECT_NAME> — Architecture
+
+## System Overview
+
+<2–4 sentences: the system's purpose, its users, and the core problem it solves at the
+infrastructure level.>
+
+### High-Level Diagram
+
+```mermaid
+graph TD
+    A[<Client / User>] --> B[<Entry point: API / CLI / UI>]
+    B --> C[<Core service / module>]
+    C --> D[<Data store>]
+    C --> E[<External service>]
+```
+<!-- Replace with your actual topology. Even a rough diagram is better than none. -->
+<!-- Agents can read Mermaid — prefer it over ASCII art. -->
+
+---
+
+## Components
+
+### `<Component 1 name>`
+**Responsibility:** <What this component owns. One sentence.>
+**Location:** `<path/in/repo>`
+**Key interfaces:**
+- `<FunctionName(args)>` — <what it does>
+- `<FunctionName(args)>` — <what it does>
+
+### `<Component 2 name>`
+**Responsibility:** <What this component owns.>
+**Location:** `<path/in/repo>`
+
+<!-- Add more components as needed -->
+
+---
+
+## Data Flow
+
+### <Primary Flow Name — e.g., "Incoming API Request">
+
+```
+1. <Step 1: e.g., Request arrives at Gateway, authenticated via JWT>
+2. <Step 2: e.g., Routed to Service A, which validates input>
+3. <Step 3: e.g., Service A queries DB, transforms result>
+4. <Step 4: e.g., Response returned to client>
+```
+
+### <Secondary Flow — e.g., "Background Job Processing">
+```
+1. <Step 1>
+2. <Step 2>
+```
+
+---
+
+## Technology Decisions
+
+| Decision | Choice | Rejected Alternatives | Reason |
+|---|---|---|---|
+| Database | <e.g., PostgreSQL> | <e.g., MongoDB, DynamoDB> | <e.g., Need ACID transactions and complex joins> |
+| Auth | <e.g., JWT + refresh tokens> | <e.g., Sessions, OAuth only> | <e.g., Stateless, works across services> |
+| Message queue | <e.g., none / SQS / RabbitMQ> | <e.g., Kafka> | <e.g., Volume doesn't justify Kafka overhead> |
+| <Decision> | <Choice> | <Alternatives> | <Reason> |
+
+<!-- These rows are gold for AI agents. "Why" prevents them from replacing your choices. -->
+
+---
+
+## Deployment Topology
+
+```
+<Environment>
+├── <Service / container name>   (<instance type / specs>)
+│   └── Runs: <what process>
+├── <Service / container name>
+│   └── Runs: <what process>
+└── <Data store>                 (<managed / self-hosted>)
+```
+
+**Environments:** <e.g., `dev` (local Docker) | `staging` (GCP Cloud Run) | `prod` (GCP Cloud Run + CloudSQL)>
+
+---
+
+## Intentional Boundaries
+
+Things that are **not** in this system by design:
+
+- **No <pattern/service>** — <reason. e.g., "No ORM — we write raw SQL for control and performance">
+- **No <pattern/service>** — <reason>
+- **<Feature X> is out of scope** — <reason. e.g., handled by upstream service Y>
+
+<!-- This section is critical for AI agents. It prevents them from helpfully adding things
+     that you've intentionally excluded. -->
+
+---
+
+## Known Constraints & Trade-offs
+
+- **<Constraint>:** <explanation. e.g., "Single-region only — cross-region replication not yet implemented">
+- **<Trade-off>:** <explanation. e.g., "Eventual consistency on read replicas — acceptable for this use case">
+
+---
+
+## Related Docs
+
+- [CLAUDE.md](../CLAUDE.md) — Agent instructions and commands
+- [CODING_STANDARDS.md](../CODING_STANDARDS.md) — Style and patterns
+- [docs/decisions/](../docs/decisions/) — Architecture Decision Records

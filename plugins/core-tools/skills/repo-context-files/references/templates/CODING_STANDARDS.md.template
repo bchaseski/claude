@@ -1,0 +1,177 @@
+# CODING_STANDARDS.md Template
+# ==============================
+# This file extends CLAUDE.md's quick-reference section with full detail.
+# Rule of thumb: if you find yourself explaining a convention more than once in code
+# review, it belongs here.
+
+# <PROJECT_NAME> — Coding Standards
+
+> **See also:** [CLAUDE.md](../CLAUDE.md) for commands and project overview,
+> [ARCHITECTURE.md](./ARCHITECTURE.md) for system design context.
+
+---
+
+## Naming Conventions
+
+### Files & Directories
+| Type | Convention | Example |
+|---|---|---|
+| <e.g., React components> | <e.g., PascalCase.tsx> | `UserProfile.tsx` |
+| <e.g., Utility modules> | <e.g., camelCase.ts> | `dateUtils.ts` |
+| <e.g., Test files> | <e.g., *.test.ts, co-located> | `UserProfile.test.ts` |
+| <e.g., Python modules> | <e.g., snake_case.py> | `user_profile.py` |
+
+### Variables & Functions
+| Type | Convention | Example |
+|---|---|---|
+| <e.g., Functions> | <e.g., camelCase> | `getUserById` |
+| <e.g., Classes> | <e.g., PascalCase> | `UserService` |
+| <e.g., Constants> | <e.g., SCREAMING_SNAKE> | `MAX_RETRY_COUNT` |
+| <e.g., Private methods> | <e.g., prefix with _> | `_validateInput` |
+| <e.g., Boolean vars> | <e.g., is/has/should prefix> | `isLoading`, `hasPermission` |
+
+### Database / API
+- Table names: <e.g., snake_case plural — `user_events`, not `UserEvent`>
+- Column names: <e.g., snake_case — `created_at`, not `createdAt`>
+- API endpoints: <e.g., kebab-case — `/user-events`, not `/userEvents`>
+- API response keys: <e.g., camelCase in JSON>
+
+---
+
+## Code Organization
+
+### Module / Feature Structure
+```
+<feature-name>/
+├── <entry point>         # Public API of this module
+├── <implementation>      # Internal logic
+├── <types/interfaces>    # Type definitions
+└── <tests>               # Co-located or in __tests__/
+```
+
+### Import Order
+```<language>
+# 1. Standard library
+# 2. Third-party / external
+# 3. Internal / local (absolute paths)
+# 4. Relative imports (avoid where possible)
+```
+
+### File Length
+- <e.g., Prefer files under 300 lines. Split by responsibility, not by line count.>
+- <e.g., A file that imports from itself is a sign it needs to be split.>
+
+---
+
+## Error Handling
+
+```<language>
+# Pattern: <describe your error handling strategy>
+# Example of the right pattern:
+<code example>
+
+# Anti-pattern — never do this:
+<bad code example>
+```
+
+- **Never** swallow errors silently (`catch (e) {}` is forbidden)
+- **Always** include context in error messages: not `"Not found"` but `"User {id} not found in users table"`
+- **Error types:** <e.g., use custom error classes / use Result type / use typed error unions>
+- **External service failures:** <e.g., always wrap in try/catch and log before rethrowing>
+
+---
+
+## Testing
+
+### What Requires Tests
+- [ ] All business logic functions
+- [ ] All API endpoints (at least happy path + main error cases)
+- [ ] All data transformations
+- [ ] <Any other required coverage>
+
+### Test Structure
+```<language>
+# Naming: describe what it does, not what it is
+# BAD:  test("processUser")
+# GOOD: test("processUser returns null when user is inactive")
+
+describe("<unit under test>", () => {
+  describe("<scenario>", () => {
+    it("<expected outcome>", () => {
+      // Arrange
+      // Act
+      // Assert
+    });
+  });
+});
+```
+
+### Mocking Rules
+- <e.g., Mock at the boundary (HTTP clients, DB) — never mock business logic>
+- <e.g., Use factories for test data, not hardcoded literals>
+- <e.g., Integration tests run against a real DB (use test DB)>
+
+---
+
+## Async / Concurrency
+
+- <e.g., Always use async/await over raw Promises>
+- <e.g., Never use Promise.all without handling individual rejections>
+- <e.g., All background jobs must be idempotent>
+
+---
+
+## Logging
+
+```<language>
+# Use structured logging — always include context keys
+logger.info("Order processed", { orderId, userId, amount })
+
+# NOT this:
+console.log("Order " + orderId + " processed")
+```
+
+- **Log levels:** DEBUG (local dev only) | INFO (state transitions) | WARN (recoverable issues) | ERROR (needs attention)
+- **Never log:** passwords, tokens, PII, full request bodies
+- **Always log:** request IDs, user/entity IDs, durations for slow operations
+
+---
+
+## Security Conventions
+
+- **Input validation:** <e.g., validate at the API boundary using Zod/Pydantic/Joi — never trust request data>
+- **SQL:** <e.g., parameterized queries only — no string concatenation>
+- **Secrets:** <e.g., never hardcode, always read from environment — use .env.example for docs>
+- **Auth checks:** <e.g., always verify at the service layer, not just middleware>
+- **Dependencies:** <e.g., run `npm audit` / `pip-audit` before merging>
+
+---
+
+## <Language-Specific Section>
+<!-- Add a section specific to your stack. Examples below: -->
+
+### TypeScript
+- `strict: true` is non-negotiable
+- No `any` — use `unknown` and narrow it
+- Prefer `interface` for object shapes that others will extend; `type` for unions/intersections
+
+### Python
+- Type hints required on all public functions
+- Use `dataclass` or `pydantic.BaseModel` for structured data — not plain dicts
+- f-strings preferred over `.format()` or `%`
+
+### Go
+- Errors returned, not panicked (except truly unrecoverable states)
+- Context propagated through all functions that do I/O
+- Table-driven tests preferred
+
+---
+
+## Pull Request Checklist
+
+Before opening a PR, confirm:
+- [ ] `<lint command>` passes with no warnings
+- [ ] `<test command>` passes
+- [ ] New code has tests
+- [ ] No secrets committed
+- [ ] CLAUDE.md updated if conventions changed
