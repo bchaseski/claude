@@ -1,6 +1,6 @@
 {
   "name": "core-tools",
-  "description": "Essential productivity skills: documentation lookup via Context7, autonomous PR comment resolution with stack-aware verification, and project/LLM-context documentation generation for Claude Code.",
+  "description": "Essential productivity skills: documentation lookup via Context7, autonomous PR comment resolution with stack-aware verification, project/LLM-context documentation generation, and Architecture Decision Record (ADR) authoring for Claude Code.",
   "author": {
     "name": "Brian Chase"
   }

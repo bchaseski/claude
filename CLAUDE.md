@@ -42,6 +42,7 @@ plugins/
 │   ├── .claude-plugin/
 │   │   └── plugin.json
 │   └── skills/
+│       ├── adr-writer/
 │       ├── find-docs/
 │       ├── repo-context-files/
 │       └── resolve-comments/
@@ -62,7 +63,7 @@ The marketplace manifest at `.claude-plugin/marketplace.json` catalogs both plug
 
 ### Two Plugins
 
-- **core-tools** (default install): `find-docs`, `repo-context-files`, `resolve-comments`
+- **core-tools** (default install): `adr-writer`, `find-docs`, `repo-context-files`, `resolve-comments`
 - **git-workflow** (install with `--git-help`): `git-checkpoint`, `git-feature-start`, `git-resolve-conflicts`, `git-submit-pr`, `git-sync-main`
 
 ### resolve-comments Stack Modules
